@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:layout="https://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="/admin/layout/index"
+      xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Thống kê - HTTK Book - Trang quản trị hệ thống</title>
+</head>
+<body>
+<div layout:fragment="main-content">
+
+
+    <!--Line with Area Chart 1 Starts-->
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+<!--                <div class="card-header">-->
+<!--                    <h4 class="card-title">PRODUCTS SALES</h4>-->
+<!--                </div>-->
+                <div class="card-body">
+                    <div id="status_chart" flex></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Line with Area Chart 1 Ends-->
+
+
+</div>
+
+
+<th:block layout:fragment="scripts">
+    <script src="https://code.highcharts.com/highcharts.src.js"></script>
+
+    <script  th:inline="javascript">
+
+        var theList = [[${orders}]];
+        var list_name = [];
+        var list_amount = [];
+
+        for (i = 0; i < theList.length; i++) {
+            // doSomething(theList[i]);
+            list_name.push(theList[i].name);
+            list_amount.push(theList[i].amount);
+
+        }
+
+        console.log(list_name);
+        console.log(list_amount);
+
+        Highcharts.chart('status_chart', {
+            chart: {
+                type: 'column',
+            },
+            title: {
+                text: 'Thống kê tình trạng hóa đơn online'
+            },
+            xAxis: {
+                categories:list_name
+            },
+            yAxis: {
+                title: {
+                    text: 'Số lượng'
+                }
+            },
+            series: [{
+                showInLegend: false,
+                name: 'Số lượng',
+                data: list_amount
+            }]
+        });
+    </script>
+</th:block>
+</body>
+</html>
