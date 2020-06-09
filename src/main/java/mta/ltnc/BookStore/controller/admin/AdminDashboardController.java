@@ -42,7 +42,6 @@ public class AdminDashboardController {
         modelAndView.addObject("order_count", order_count);
         modelAndView.addObject("book_count", book_count);
 
-
         return modelAndView;
     }
 }

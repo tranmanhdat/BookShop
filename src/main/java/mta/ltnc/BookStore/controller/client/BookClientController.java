@@ -23,6 +23,7 @@ public class BookClientController {
     private AuthorClientService authorService;
     @Autowired
     private PublisherClientService publisherService;
+
     @Autowired
     private CategoryClientService categoryService;
     @Autowired
