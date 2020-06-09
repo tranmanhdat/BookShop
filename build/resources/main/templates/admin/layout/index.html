@@ -116,6 +116,10 @@
                         th:classappend="${#httpServletRequest.getRequestURI() == '/admin/static' ? 'active':''}"><a
                             href="/admin/static"><i class="ft-home"></i><span data-i18n="" class="menu-title">Thống kê</span></a>
                     </li>
+                    <li class=" nav-item"
+                        th:classappend="${#httpServletRequest.getRequestURI() == '/admin/user' ? 'active':''}"><a
+                            href="/admin/user"><i class="ft-home"></i><span data-i18n="" class="menu-title">Thông tin tài khoản</span></a>
+                    </li>
                     <li class="has-sub nav-item"><a href="#"><i class="ft-droplet"></i><span data-i18n=""
                                                                                              class="menu-title">Quản lý tài khoản</span></a>
                         <ul class="menu-content">

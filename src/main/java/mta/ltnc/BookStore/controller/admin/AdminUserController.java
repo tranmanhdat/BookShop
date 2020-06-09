@@ -52,8 +52,6 @@ public class AdminUserController {
         Page<User> bookCategoryPage =userService.findPaginated(PageRequest.of(currentPage - 1, pageSize));
         ModelAndView modelAndView = new ModelAndView("admin/user/index");
         modelAndView.addObject("page", bookCategoryPage);
-
-
         int totalPages = bookCategoryPage.getTotalPages();
         if (totalPages > 0) {
             List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
@@ -96,15 +94,14 @@ public class AdminUserController {
         return modelAndView;
     }
 
-
-    @RequestMapping(value = "/admin/user/edit", method = RequestMethod.GET)
+    @RequestMapping(value = "/admin/user/details", method = RequestMethod.GET)
     public ModelAndView userDetail(
             @RequestParam("id") Long id
     ){
         Long user_id = id;
         List<UserGroup> userGroups = userGroupService.findAll();
         User user = userRepository.findById(user_id).get();
-        ModelAndView modelAndView = new ModelAndView("admin/user/edit");
+        ModelAndView modelAndView = new ModelAndView("admin/user/details");
         modelAndView.addObject("addUser",user);
         modelAndView.addObject("userGroups",userGroups );
         return modelAndView;

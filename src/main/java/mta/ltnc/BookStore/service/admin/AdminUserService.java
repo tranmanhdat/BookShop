@@ -20,6 +20,7 @@ public class AdminUserService {
     public  List<User> findAll(){
         return userRepository.findAll();
     }
+
     public Page<User> findPaginated(Pageable pageable) {
         int pageSize = pageable.getPageSize();
         int currentPage = pageable.getPageNumber();

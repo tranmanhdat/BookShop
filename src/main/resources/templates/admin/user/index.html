@@ -57,10 +57,9 @@
                                     <td th:text="${user.email!=null}?${user.email}:'Chưa nhập email'"></td>
                                     <td th:text="${user.userGroup.name}"></td>
                                     <td th:text="${user.status}"></td>
-
                                     <td>
                                         <a class="info p-0" data-original-title="" title=""
-                                           th:href="@{/admin/user/edit?id={id}(id=${user.id})}">
+                                           th:href="@{/admin/user/details?id={id}(id=${user.id})}">
                                             <i class="ft-info font-medium-3 mr-2"></i>
                                         </a>
                                     </td>
