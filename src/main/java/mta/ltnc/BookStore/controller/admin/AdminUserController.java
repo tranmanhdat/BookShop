@@ -11,6 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -33,19 +34,9 @@ public class AdminUserController {
 
     @Autowired
     private UserRepository userRepository;
-//    @RequestMapping(value = "/admin/category", method = RequestMethod.GET)
-//    public ModelAndView listAllCategory() {
-//        ModelAndView modelAndView = new ModelAndView("admin/book_category/index");
-//        modelAndView.addObject("book_categories", bookCategoryService.findAll());
-//        System.out.println(bookCategoryService.findAll());
-//        return modelAndView;
-//    }
 
     @RequestMapping(value = "/admin/user", method = RequestMethod.GET)
     public ModelAndView listCategory(
-//            Model model,
-//            @RequestParam("page") Optional<Integer> page,
-//            @RequestParam("size") Optional<Integer> size
     ) {
         int currentPage = 1;
         int pageSize = 5;
@@ -89,23 +80,22 @@ public class AdminUserController {
         ModelAndView modelAndView = new ModelAndView("admin/user/add");
         modelAndView.addObject("addUser",user);
         modelAndView.addObject("userGroups",userGroups );
-
-
         return modelAndView;
     }
 
-    @RequestMapping(value = "/admin/user/details", method = RequestMethod.GET)
+    @RequestMapping(value = "/admin/user/edit", method = RequestMethod.GET)
     public ModelAndView userDetail(
             @RequestParam("id") Long id
     ){
         Long user_id = id;
         List<UserGroup> userGroups = userGroupService.findAll();
         User user = userRepository.findById(user_id).get();
-        ModelAndView modelAndView = new ModelAndView("admin/user/details");
+        ModelAndView modelAndView = new ModelAndView("admin/user/edit");
         modelAndView.addObject("addUser",user);
         modelAndView.addObject("userGroups",userGroups );
         return modelAndView;
     }
+
     @RequestMapping(value="/admin/user/addRequest", method = RequestMethod.POST)
     public String addUser(@Valid User user, BindingResult result) {
         if (result.hasErrors()) {
@@ -115,26 +105,30 @@ public class AdminUserController {
 //        System.out.print(bookCategory);
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 //        bookCategory.setCreateDate(timestamp);
+        // lombok
         user.setCreatedDate(timestamp);
 //        bookCategory.setDisplayOrder(1);
         userRepository.save(user);
         return "redirect:/admin/user";
     }
+
     @Modifying
     @RequestMapping(value="/admin/user/editRequest", method = RequestMethod.POST)
     public String updateUser(@Valid User user, BindingResult result) {
         if (result.hasErrors()) {
-            return "redirect:/admin/user/edit";
+            return "redirect:/admin/user/edit?id="+user.getId();
         }
-//        User userForUpdate = userRepository.findById(1L).get();
-//        System.out.print(bookCategory);
-//        bookCategory.setCreateDate(timestamp);
-//        bookCategory.setDisplayOrder(1);
-//        userForUpdate.setName("");
         userRepository.save(user);
-//        user.setId(user.getId());
-//        userRepository.save(user);
         return "redirect:/admin/user";
     }
 
+//    @Modifying
+    @GetMapping("/admin/user/delete")
+    public String deleteUser(
+            @RequestParam("id") Long id
+    ){
+        Long user_id = id;
+        userRepository.deleteById(user_id);
+        return "redirect:/admin/user";
+    }
 }

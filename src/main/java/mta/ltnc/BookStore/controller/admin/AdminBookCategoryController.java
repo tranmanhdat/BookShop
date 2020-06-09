@@ -90,8 +90,6 @@ public class AdminBookCategoryController {
         ModelAndView modelAndView = new ModelAndView("admin/book_category/add");
         modelAndView.addObject("addBookCategory",bookCategory);
         modelAndView.addObject("categories",categories );
-
-
         return modelAndView;
     }
 

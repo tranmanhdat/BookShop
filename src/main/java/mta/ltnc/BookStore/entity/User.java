@@ -1,18 +1,20 @@
 package mta.ltnc.BookStore.entity;
 
 import lombok.Data;
+import lombok.NonNull;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 
 @Data
 @Entity
 @Table(name="[user]")
-
 public class User {
     private static final long serialVersionUID = 1L;
     @Id
@@ -20,15 +22,19 @@ public class User {
     private Long id;
     @Basic
     @Column(name = "UserName", nullable = true, length = 50)
+    @NotNull @NotBlank
     private String userName;
     @Basic
     @Column(name = "Email", nullable = true, length = 100)
+    @NotNull @NotBlank
     private String email;
     @Basic
     @Column(name = "Password", nullable = true, length = 255)
+    @NotNull @NotBlank
     private String password;
     @Basic
     @Column(name = "Name", nullable = true, columnDefinition = "nvarchar(255)")
+    @NotNull @NotBlank
     private String name;
 //    @Basic
 //    @Column(name = "DayOfBirth", nullable = true)
@@ -49,5 +55,5 @@ public class User {
     @ManyToOne
     @JoinColumn(name = "UserGroupID", referencedColumnName = "ID")
     private UserGroup userGroup;
-
 }
+

@@ -59,8 +59,12 @@
                                     <td th:text="${user.status}"></td>
                                     <td>
                                         <a class="info p-0" data-original-title="" title=""
-                                           th:href="@{/admin/user/details?id={id}(id=${user.id})}">
+                                           th:href="@{/admin/user/edit?id={id}(id=${user.id})}">
                                             <i class="ft-info font-medium-3 mr-2"></i>
+                                        </a>
+                                        <a class="danger p-0" data-original-title="" title=""
+                                           th:href="@{/admin/user/delete?id={id}(id=${user.id})}">
+                                            <i class="ft-x font-medium-3 mr-2"></i>
                                         </a>
                                     </td>
                                 </tr>
@@ -144,6 +148,7 @@
                 }
             }
         }
+
         function refreshDataTable(page, size) {
             toastr.info("Vui lòng đợi quá trình cập nhật kết thúc", "Đang cập nhật dữ liệu")
             $.ajax({
@@ -160,9 +165,7 @@
                 error:function (error) {
                     toastr.error("Đã xuất hiện lỗi trong quá trình cập nhật", "Thất bại")
                 }
-
             })
-
         }
 
     </script>
