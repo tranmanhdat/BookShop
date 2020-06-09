@@ -24,23 +24,24 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     DataSource dataSource;
 
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.jdbcAuthentication()
-                .usersByUsernameQuery("select user_name as username, password, status as enable from [user] where user_name=?")
-                .authoritiesByUsernameQuery("select [user].user_name as username, user_group.name as role from user_group join [user] on [user].user_groupid = user_group.id where user_name=?")
-                .dataSource(dataSource).passwordEncoder(passwordEncoder());
-    }
-
 //    @Override
 //    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//        auth.inMemoryAuthentication()
-//                .withUser("phuctu1901").password(passwordEncoder().encode("12345678")).roles("admin2")
-//                .and()
-//                .withUser("user2").password(passwordEncoder().encode("user2Pass")).roles("USER")
-//                .and()
-//                .withUser("admin").password(passwordEncoder().encode("adminPass")).roles("ADMIN");
+//        auth.jdbcAuthentication()
+//                .usersByUsernameQuery("select `user_name` as `username`, `password`, `status` as `enable` from `user` where `user_name`= ?")
+//                .authoritiesByUsernameQuery("select `user`.`user_name` as `username`, `user_group`.`name` as `role` from `user_group` join `user` on `user`.`user_groupid` = `user_group`.`id` where `user_name` = ?")
+//                .dataSource(dataSource).passwordEncoder(passwordEncoder());
 //    }
+
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.inMemoryAuthentication()
+                .withUser("hoanghuy").password(passwordEncoder().encode("12345678")).roles("admin2")
+                .and()
+                .withUser("user2").password(passwordEncoder().encode("user2")).roles("USER")
+                .and()
+                .withUser("admin").password(passwordEncoder().encode("admin")).roles("ADMIN");
+    }
+
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
         http.authorizeRequests().antMatchers("/image/**").permitAll().antMatchers("/").permitAll()

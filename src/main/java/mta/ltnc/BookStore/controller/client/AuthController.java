@@ -26,17 +26,17 @@ public class AuthController {
     public String registerCustomer() {
         User user = new User();
 
-        user.setUserName("customer");
-        user.setPassword(passwordEncoder.encode("12345678"));
+        user.setUserName("admin");
+        user.setPassword(passwordEncoder.encode("admin"));
 //        user.setPassword("123");
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         user.setCreatedDate(timestamp);
         user.setStatus(true);
-        user.setEmail("1");
-        user.setName("1");
-        user.setPhone("1");
-        user.setAddress("1");
-        user.setUserGroup(userGroupRepository.findById(2L).get());
+        user.setEmail("huy441998@gmail.com");
+        user.setName("Hoang Quoc Huy");
+        user.setPhone("123456789");
+        user.setAddress("Hoang Quoc Viet");
+        user.setUserGroup(userGroupRepository.findById(1l).get());
         System.out.print(user);
         userRepository.save(user);
         return "index3";
