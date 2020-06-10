@@ -40,12 +40,12 @@ public class AdminUserService {
         return bookCategoryPage;
     }
 
-    public Page<User> search(Pageable pageable) {
+    public Page<User> search(Pageable pageable, String term) {
         int pageSize = pageable.getPageSize();
         int currentPage = pageable.getPageNumber();
         int startItem = currentPage * pageSize;
         List<User> list;
-        List<User> data = userRepository.findAll();
+        List<User> data = userRepository.findUserByEmailOrUserName(term);
         if (data.size() < startItem) {
             list = Collections.emptyList();
         } else {

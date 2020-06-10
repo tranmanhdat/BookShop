@@ -131,4 +131,39 @@ public class AdminUserController {
         userRepository.deleteById(user_id);
         return "redirect:/admin/user";
     }
+
+    @RequestMapping(value = "/admin/user/search", method = RequestMethod.GET)
+    public ModelAndView searchUser( @RequestParam("term") String term ) {
+        int currentPage = 1;
+        int pageSize = 5;
+        Page<User> bookCategoryPage =userService.search(PageRequest.of(currentPage - 1, pageSize),term);
+        ModelAndView modelAndView = new ModelAndView("admin/user/index");
+        modelAndView.addObject("page", bookCategoryPage);
+        int totalPages = bookCategoryPage.getTotalPages();
+        if (totalPages > 0) {
+            List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
+                    .boxed()
+                    .collect(Collectors.toList());
+            modelAndView.addObject("pageNumbers", pageNumbers);
+        }
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/admin/user/search", method = RequestMethod.POST)
+    public ModelAndView tableSearch(
+            @RequestParam("page") int page,  @RequestParam("size") int size, @RequestParam("term") String term ) {
+        int currentPage = page;
+        int pageSize = size;
+        Page<User> bookCategoryPage = userService.search(PageRequest.of(currentPage - 1, pageSize),term);
+        ModelAndView modelAndView = new ModelAndView("admin/user/index::data_table");
+        modelAndView.addObject("page", bookCategoryPage);
+        int totalPages = bookCategoryPage.getTotalPages();
+        if (totalPages > 0) {
+            List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
+                    .boxed()
+                    .collect(Collectors.toList());
+            modelAndView.addObject("pageNumbers", pageNumbers);
+        }
+        return modelAndView;
+    }
 }
