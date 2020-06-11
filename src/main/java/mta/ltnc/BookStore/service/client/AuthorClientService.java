@@ -18,7 +18,13 @@ public class AuthorClientService {
         return new ResponseDto("0", "Success", b);
 
     }
+
+
     public List<AuthorDto> getAllByAuthorType(Long authorType){
         return authorRepository.getAllAuthorDtoByAuthorType(authorType);
     }
+
+//    public AuthorDto getAuthorProfile(Long id){
+//        return authorRepository.getOne(id.intValue());
+//    }
 }

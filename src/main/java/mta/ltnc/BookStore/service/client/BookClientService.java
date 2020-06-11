@@ -3,11 +3,18 @@ package mta.ltnc.BookStore.service.client;
 import mta.ltnc.BookStore.dto.ResponseDto;
 import mta.ltnc.BookStore.dto.client.BookDto;
 import mta.ltnc.BookStore.entity.Book;
+import mta.ltnc.BookStore.entity.User;
 import mta.ltnc.BookStore.repositories.BookImageRepository;
 import mta.ltnc.BookStore.repositories.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -60,6 +67,7 @@ public class BookClientService {
         });
         return temp;
     }
+
     public Book findById(Long bookId){
         return bookRepository.findById(bookId).get();
     }
@@ -78,4 +86,21 @@ public class BookClientService {
         });
         return temp;
     }
+
+    public List<BookDto> findPaginated(List<BookDto> list,int pageSize, int currentPage) {
+        int startItem = currentPage * pageSize;
+
+        if (list.size() < startItem) {
+            list = new ArrayList<>();
+        } else {
+            int toIndex = Math.min(startItem + pageSize, list.size());
+            list = list.subList(startItem, toIndex);
+        }
+        return list;
+    }
+
+    public int getTotalPagesFromList(List<BookDto> list, int pageSIze){
+        return (int) (list.size() / pageSIze) + 1;
+    }
+
 }

@@ -29,6 +29,7 @@ public class HelpModelAndView {
         List<SpecialBookCategoryDto> special = new ArrayList<>();
         mav.addObject("special",special);
         List<AuthorDto> authorlocal = authorService.getAllByAuthorType(local);
+        int totol = authorlocal.stream().mapToInt(x ->x.numberBooks).sum();
         mav.addObject("authorlocal",authorlocal);
         List<AuthorDto> authorforgery = authorService.getAllByAuthorType(forein);;
         mav.addObject("authorforgery",authorforgery);

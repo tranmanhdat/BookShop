@@ -4,11 +4,13 @@
 <body>
 <hr />
 <div th:fragment="list_book (listBook,namePath)" class="container">
-     <div class="box text-primary text-center font-weight-bold bg-light"> <h1 th:text="${namePath == null ? '' : namePath}">NamePart</h1></div>
+     <div class="box text-primary text-center font-weight-bold bg-light"> <h1 th:text="${namePath == null ? '' : namePath}"></h1></div>
      <div class="row same-height-row">
+
           <th:block th:each="b : ${listBook}">
                <div th:replace="client/book/card :: card (book=${b})"></div>
           </th:block>
+
      </div>
 </div>
 <th:block th:fragment="jsFooter">
