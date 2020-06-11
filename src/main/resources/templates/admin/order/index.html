@@ -12,7 +12,17 @@
 </head>
 <body>
 <div layout:fragment="main-content">
-
+    <div class="container">
+        <form role="search" class="ml-auto" action="/admin/order/search" method="GET">
+            <div class="input-group">
+                <input autocomplete=off type="text" placeholder="Tìm kiếm theo Mã đơn" class="form-control" id="search_box" name="term">
+                <div class="input-group-append">
+                    <button type="submit" class="btn btn-primary" id="search_btn"><i class="fa fa-search"></i></button>
+                </div>
+            </div>
+            <div class="autocomplete" id="listAutoComplete"></div>
+        </form>
+    </div>
     <section id="extended">
         <div class="row">
             <div class="col-sm-12">
@@ -41,6 +51,7 @@
                                 <tr>
                                     <th>Mã đơn</th>
                                     <th>Tên khách hàng</th>
+                                    <th>Ngày đặt</th>
                                     <th>Giá trị</th>
                                     <th>Trạng thái</th>
                                     <th>Chi tiết</th>
@@ -51,6 +62,7 @@
 
                                     <td th:text="${order.id}"></td>
                                     <td th:text="${order.user.name}"></td>
+                                    <td th:text="${order.createdDate}"></td>
                                     <td th:text="${order.totalPrice}"></td>
                                     <td th:text="${order.statusOrder.name}"></td>
                                     <td>
@@ -116,19 +128,32 @@
 
         console.log("Size: " + size_url);
         console.log("Page: " + page_url);
-        refreshDataTable(page_url, size_url);
+        // refreshDataTable(page_url, size_url);
+        $(document).ready(function () {
+            if (window.location.href.includes("search")){
+                var urlvars = window.location.href.split('=');
+                console.log("urlvars" + urlvars);
+                document.getElementById("search_box").value = urlvars[1];
+            }else{
+                refreshDataTable(page_url,size_url);
+            }
+        });
         $("#size").change(function () {
             var size_val = $("#size").val();
-            // var page_val=parseInt(GetURLParameter("page"));
-            // if (isNaN(page_url)){
-            //     page_val=1;
-            // }
-            refreshDataTable(1, size_val);
+            if (window.location.href.includes("search")){
+                refreshDataTableSearch(1, size_val,$("#search_box").val());
+            }else{
+                refreshDataTable(1,size_val);
+            }
         });
 
         function changePage(page) {
-            var size_val = $("#size").val();
-            refreshDataTable(page, size_val);
+            var size_val =$("#size").val();
+            if (window.location.href.includes("search")){
+                refreshDataTableSearch(page, size_val,$("#search_box").val());
+            }else{
+                refreshDataTable(page,size_val);
+            }
         }
 
         function GetURLParameter(sParam) {
@@ -161,6 +186,25 @@
 
             })
 
+        }
+        function refreshDataTableSearch(page, size,term) {
+            toastr.info("Vui lòng đợi quá trình cập nhật kết thúc", "Đang cập nhật dữ liệu")
+            $.ajax({
+                type: 'post',
+                url: '/admin/order/search',
+                data:{
+                    page: page,
+                    size: size,
+                    term:term
+                },
+                success: function (data) {
+                    toastr.success("Cập nhật dữ liệu thành công", "Kết thúc")
+                    $('#data_table').html(data);
+                },
+                error:function (error) {
+                    toastr.error("Đã xuất hiện lỗi trong quá trình cập nhật", "Thất bại")
+                }
+            })
         }
 
     </script>

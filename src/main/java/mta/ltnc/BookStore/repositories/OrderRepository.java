@@ -3,8 +3,11 @@ package mta.ltnc.BookStore.repositories;
 import mta.ltnc.BookStore.dto.client.OrderDto;
 import mta.ltnc.BookStore.entity.Order;
 import mta.ltnc.BookStore.entity.StatusOrder;
+import mta.ltnc.BookStore.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Date;
@@ -16,9 +19,11 @@ import java.util.List;
 @Repository
 public interface OrderRepository extends JpaRepository<Order, Long>, JpaSpecificationExecutor<Order> {
 //
-    List<Order> findAllByCreatedDateBetween(Date start, Date end);
     List<OrderDto> findAllByUserId(Long userId);
 
     Order findTop1ByCode(String code);
     Long countAllByStatusOrder(StatusOrder statusOrder);
+//    @Query("SELECT o FROM Order o WHERE o.id LIKE %:term% or u.user.userName LIKE %:term%")
+    @Query("SELECT o FROM Order o WHERE o.id LIKE ?1")
+    List<Order> findByOrderIdOrName(Long term);
 }

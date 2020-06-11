@@ -1,6 +1,7 @@
 package mta.ltnc.BookStore.service.admin;
 
 import mta.ltnc.BookStore.entity.Order;
+import mta.ltnc.BookStore.entity.User;
 import mta.ltnc.BookStore.repositories.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -52,5 +53,21 @@ public class AdminOrderService {
     }
 
 
+    public Page<Order> search(Pageable pageable, Long term) {
+        int pageSize = pageable.getPageSize();
+        int currentPage = pageable.getPageNumber();
+        int startItem = currentPage * pageSize;
+        List<Order> list;
+        List<Order> data = repo.findByOrderIdOrName(term);
+        if (data.size() < startItem) {
+            list = Collections.emptyList();
+        } else {
+            int toIndex = Math.min(startItem + pageSize, data.size());
+            list = data.subList(startItem, toIndex);
+        }
 
+        Page<Order> orderPage = new PageImpl<Order>(list, PageRequest.of(currentPage, pageSize), data.size());
+
+        return orderPage;
+    }
 }

@@ -98,9 +98,29 @@ public class AdminOrderController {
     @RequestMapping(value="/admin/order/updateOrder", method = RequestMethod.POST)
     public String updateUser(@Valid Order order, BindingResult result) {
         if (result.hasErrors()) {
+            System.out.println(result.getFieldErrors());
+            System.out.println("error");
             return "redirect:/admin/order/edit?id=" + order.getId();
         }
         orderRepository.save(order);
         return "redirect:/admin/order";
     }
+
+    @RequestMapping(value = "/admin/order/search", method = RequestMethod.GET)
+    public ModelAndView searchUser( @RequestParam("term") Long term ) {
+        int currentPage = 1;
+        int pageSize = 5;
+        Page<Order> orderPage = orderService.search(PageRequest.of(currentPage - 1, pageSize),term);
+        ModelAndView modelAndView = new ModelAndView("admin/order/index");
+        modelAndView.addObject("page", orderPage);
+        int totalPages = orderPage.getTotalPages();
+        if (totalPages > 0) {
+            List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
+                    .boxed()
+                    .collect(Collectors.toList());
+            modelAndView.addObject("pageNumbers", pageNumbers);
+        }
+        return modelAndView;
+    }
+
 }
