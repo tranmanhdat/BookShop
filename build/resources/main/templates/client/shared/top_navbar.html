@@ -1,5 +1,4 @@
-﻿<!DOCTYPE html>
-<html xmlns:layout="https://www.ultraq.net.nz/thymeleaf/layout"
+﻿<html xmlns:layout="https://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:th="https://www.thymeleaf.org">
 <body>
 <nav  th:fragment="top_navbar" class="navbar navbar-expand-lg bg-light">
@@ -22,11 +21,11 @@
                               <li>
                                    <div class="row">
                                         <div class="col-md-6 col-lg-3" th:each="c : ${category}" th:if="${c.category.status == true}">
-                                             <h5><a th:text="${c.category.name}" th:href="@{book/by_category}" idCate="${c.category.id}" class = "nav-link"></a></h5>
+                                             <h5><a th:text="${c.category.name}" th:href="@{/book-by/by_category(id=${c.category.id})}" idCate="${c.category.id}" class = "nav-link"></a></h5>
                                              <ul class="list-unstyled mb-3" th:each="bookcate : ${c.lsBookCategory}">
                                                   <li class="nav-item text-dark">
                                                        <a th:utext="${bookcate.bookCategory.name + '(' + #strings.toString(bookcate.numberBooks) + ')'}"
-                                                       th:href="@{/book_by/filtered_by_bookcate(select_bookcate=${bookcate.bookCategory.id})}"
+                                                       th:href="@{/book-by/filtered-by-bookcate(select_bookcate=${bookcate.bookCategory.id})}"
                                                        class = "nav-link"></a>
                                                   </li>
                                              </ul>
@@ -45,7 +44,7 @@
                                              <ul class="list-unstyled mb-3" th:each="al : ${authorlocal}">
                                                   <li class="nav-item text-dark">
                                                        <a th:text="${al.author.name + '(' + #strings.toString(al.numberBooks) + ')'}"
-                                                       th:href="@{/book_by/filtered_by_author(select_author=${al.author.id})}"
+                                                       th:href="@{/book-by/filtered-by-author(select_author=${al.author.id})}"
                                                        class="nav-link"></a>
                                                   </li>
                                              </ul>
@@ -55,7 +54,7 @@
                                              <ul class="list-unstyled mb-3" th:each="af : ${authorforgery}">
                                                   <li class="nav-item text-dark">
                                                        <a th:text="${af.author.name+ '(' + #strings.toString(af.numberBooks) + ')'}"
-                                                       th:href="@{/book_by/filtered_by_author(select_author=${af.author.id})}"
+                                                       th:href="@{/book-by/filtered-by-author(select_author=${af.author.id})}"
                                                        class="nav-link"></a>
                                                   </li>
                                              </ul>

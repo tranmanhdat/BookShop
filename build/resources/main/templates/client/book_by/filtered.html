@@ -1,4 +1,4 @@
-﻿@model List<BookMVC.Models.BookViewModel>
+﻿<!--@model List<>-->
 @{
      var totalBooks = Model.Count;
      var showwing = 6;
@@ -9,7 +9,7 @@
 }
 <div class="box info-bar">
      <div class="row">
-          <div class="col-md-12 col-lg-4 products-showing">Showing <strong id="numberItems">@showwing</strong> of <strong id="totalItems">@totalBooks</strong> products</div>
+          <div class="col-md-12 col-lg-4 products-showing">Showing <strong id="numberItems">${showwing}</strong> of <strong id="totalItems">${totalBooks}</strong> products</div>
           <div class="col-md-12 col-lg-7 products-number-sort">
                <form class="form-inline d-block d-lg-flex justify-content-between flex-column flex-md-row">
                     <div class="products-number">
@@ -31,7 +31,7 @@
      </div>
 </div>
 <div class="products" id="jar">
-     <div class="row same-height-row">
+     <div class="row same-height-row" >
           @foreach (var b in Model)
           {
                Html.RenderAction("Card", "Book", b);
@@ -39,7 +39,6 @@
      </div>
 </div>
 <div class="pages">
-     @*<p class="loadMore"><a href="#" class="btn btn-primary btn-lg"><i class="fa fa-chevron-down"></i> Load more</a></p>*@
      <nav>
           <ul class="pagination justify-content-center pagination-sm"></ul>
      </nav>

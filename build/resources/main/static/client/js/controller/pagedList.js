@@ -48,7 +48,7 @@ function pageList(limitPerPage,idContainer,classObject) {
      // Number of buttons at the top, not counting prev/next,
      // but including the dotted buttons.
      // Must be at least 5:
-     var paginationSize = 7;
+     var paginationSize = 5;
      var currentPage;
 
      function showPage(whichPage) {

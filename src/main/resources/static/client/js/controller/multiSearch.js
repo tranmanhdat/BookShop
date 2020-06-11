@@ -1,6 +1,6 @@
 ﻿//
 function filtered() {
-     var form = $('form#filter').serialize();
+     var form = $('#filter').serialize();
      $.ajax({
           url: '/BookBy/Filtered',
           method: 'POST',
