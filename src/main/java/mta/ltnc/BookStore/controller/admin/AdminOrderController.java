@@ -1,18 +1,26 @@
 package mta.ltnc.BookStore.controller.admin;
 
 import mta.ltnc.BookStore.entity.Order;
+import mta.ltnc.BookStore.entity.StatusOrder;
+import mta.ltnc.BookStore.entity.User;
+import mta.ltnc.BookStore.entity.UserGroup;
 import mta.ltnc.BookStore.repositories.BookRepository;
+import mta.ltnc.BookStore.repositories.OrderRepository;
+import mta.ltnc.BookStore.repositories.StatusOrderRepository;
 import mta.ltnc.BookStore.service.admin.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -22,25 +30,13 @@ import java.util.stream.IntStream;
 @Controller
 public class AdminOrderController {
     @Autowired
-    private AdminBookBookService bookService;
-
-    @Autowired
-    private BookRepository bookRepository;
-
-    @Autowired
-    private AdminBookCategoryService bookCategoryService;
-
-    @Autowired
-    private AdminCategoryService categoryService;
-
-    @Autowired
-    private AdminAuthorService authorService;
-
-    @Autowired
-    private AdminPublisherService publisherService;
-
-    @Autowired
     private AdminOrderService orderService;
+
+    @Autowired
+    private OrderRepository orderRepository;
+
+    @Autowired
+    private StatusOrderRepository statusOrderRepository;
 
     @RequestMapping(value = "/admin/order", method = RequestMethod.GET)
     public ModelAndView listAllOrder(
@@ -86,35 +82,25 @@ public class AdminOrderController {
         }
         return modelAndView;
     }
-
-//    @RequestMapping(value = "/admin/book/add", method = RequestMethod.GET)
-//    public ModelAndView addBookView(){
-//        Book addBook = new Book();
-//        List<BookCategory> bookCategories = bookCategoryService.findAll();
-//        List<Author> authors = authorService.findAll();
-//        List<Publisher> publishers = publisherService.findAll();
-//        ModelAndView modelAndView = new ModelAndView("admin/book/add");
-//        modelAndView.addObject("addBook",addBook);
-//        modelAndView.addObject("bookcategories",bookCategories);
-//        modelAndView.addObject("authors",authors);
-//        modelAndView.addObject("publishers",publishers);
-//
-//
-//        return modelAndView;
-//    }
-//
-//    @RequestMapping(value="/admin/book/addRequest", method = RequestMethod.POST)
-//    public String addBookCategory(@Valid Book book, BindingResult result) {
-////        if (result.hasErrors()) {
-////            return "redirect:/admin/book/add";
-////        }
-//
-//        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-//        book.setCreateDate(timestamp);
-////        book.set;
-//        bookRepository.save(book);
-//        return "redirect:/admin/book";
-//    }
-
-
+    @RequestMapping(value = "/admin/order/edit", method = RequestMethod.GET)
+    public ModelAndView orderDetail(
+            @RequestParam("id") Long id
+    ){
+        Long order_id = id;
+        Order order = orderRepository.findById(order_id).get();
+        List<StatusOrder> statusOrders = statusOrderRepository.findAll();
+        ModelAndView modelAndView = new ModelAndView("admin/order/edit");
+        modelAndView.addObject("order",order);
+        modelAndView.addObject("statusOrders",statusOrders);
+        return modelAndView;
+    }
+    @Modifying
+    @RequestMapping(value="/admin/order/updateOrder", method = RequestMethod.POST)
+    public String updateUser(@Valid Order order, BindingResult result) {
+        if (result.hasErrors()) {
+            return "redirect:/admin/order/edit?id=" + order.getId();
+        }
+        orderRepository.save(order);
+        return "redirect:/admin/order";
+    }
 }

@@ -32,11 +32,12 @@ public class AdminOrderService {
         int currentPage = pageable.getPageNumber();
         int startItem = currentPage * pageSize;
         List<Order> list;
-        Date start = new Date(2019,1,12);
-        Date end = new Date(2019,12,6);
-        System.out.println("End time: "+ end);
+//        Date start = new Date(2019,1,12);
+//        Date end = new Date(2019,12,6);
+//        System.out.println("End time: "+ end);
 
-        List<Order> data = repo.findAllByCreatedDateBetween(start, end);
+//        List<Order> data = repo.findAllByCreatedDateBetween(start, end);
+        List<Order> data = repo.findAll();
         System.out.print(data);
         if (data.size() < startItem) {
             list = Collections.emptyList();

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns:layout="https://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="/admin/layout/index"
+      xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Sửa thông tin</title>
+</head>
+<body>
+<div layout:fragment="main-content">
+
+    <!-- Basic form layout section start -->
+    <section id="horizontal-form-layouts">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title" id="horz-layout-basic">Thông tin đơn hàng</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="px-3">
+
+                            <form class="form form-horizontal" action="#" th:action="@{/admin/order/updateOrder}"
+                                  th:object="${order}" method="post">
+                                <div class="form-body">
+
+                                    <h4 class="form-section"><i class="ft-bookmark"></i> Thông tin đơn hàng</h4>
+                                    <input type="hidden" th:field="*{createdDate}" >
+                                    <input type="hidden" th:field="*{shipName}" >
+                                    <input type="hidden" th:field="*{shipMobile}" >
+                                    <input type="hidden" th:field="*{shipEmail}" >
+                                    <input type="hidden" th:field="*{shipAdress}" >
+                                    <input type="hidden" th:field="*{shippedDate}" >
+                                    <input type="hidden" th:field="*{code}" >
+                                    <input type="hidden" th:field="*{shippingType}" >
+                                    <input type="hidden" th:field="*{user}" >
+                                    <div class="form-group row">
+                                        <label class="col-md-3 label-control">Mã đơn: </label>
+                                        <div class="col-md-9">
+                                            <input th:field="*{id}" class="form-control" type="text" readonly="readonly">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-md-3 label-control">Tên khách hàng: </label>
+                                        <div class="col-md-9">
+                                            <input th:field="*{user.name}" class="form-control" type="text" readonly="readonly">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label class="col-md-3 label-control">Giá trị: </label>
+                                        <div class="col-md-9">
+                                            <input th:field="*{totalPrice}" class="form-control" type="text" readonly="readonly">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label class="col-md-3 label-control">Trạng thái: </label>
+                                        <div class="col-md-9">
+                                            <select id="parent_id" name="parent_id"
+                                                    class="form-control" th:field="*{statusOrder}">
+                                                <option th:each="statusOrder : ${statusOrders}" th:value="${statusOrder.id}"
+                                                        th:text="${statusOrder.name}">
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="form-actions">
+                                    <button type="button" class="btn btn-raised btn-warning mr-1" onclick="location.reload();">
+                                        <i class="ft-x"></i> Reset
+                                    </button>
+                                    <button type="submit" class="btn btn-raised btn-primary">
+                                        <i class="fa fa-check-square-o"></i> Save
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- // Basic form layout section end -->
+
+</div>
+
+
+</body>
+</html>
