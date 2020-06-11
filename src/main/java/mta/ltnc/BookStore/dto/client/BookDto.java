@@ -39,6 +39,7 @@ public class BookDto {
     private Long bookCategoryId;
     private Boolean isNew;
     private List<Image> listImages;
+    private Long parentCategoryId;
     public BookDto(Book b){
         this.id = b.getId();
         this.code = b.getCode();
@@ -67,5 +68,6 @@ public class BookDto {
         long newDate = 30;
         this.isNew = diff < 30 ? true : false;
         this.listImages = null;
+        this.parentCategoryId = b.getBookCategory().getCategory().getId();
     }
 }

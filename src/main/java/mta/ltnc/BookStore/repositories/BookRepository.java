@@ -2,6 +2,7 @@ package mta.ltnc.BookStore.repositories;
 
 import mta.ltnc.BookStore.dto.client.BookDto;
 import mta.ltnc.BookStore.entity.Book;
+import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
@@ -33,4 +34,5 @@ public interface BookRepository extends JpaRepository<Book, Long>, JpaSpecificat
 
     List<BookDto> getTop4ByOrderByBuysDesc();
     List<BookDto> getTop8ByOrderByBuysDesc();
+
 }
