@@ -24,22 +24,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     DataSource dataSource;
 
-//    @Override
-//    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//        auth.jdbcAuthentication()
-//                .usersByUsernameQuery("select `user_name` as `username`, `password`, `status` as `enable` from `user` where `user_name`= ?")
-//                .authoritiesByUsernameQuery("select `user`.`user_name` as `username`, `user_group`.`name` as `role` from `user_group` join `user` on `user`.`user_groupid` = `user_group`.`id` where `user_name` = ?")
-//                .dataSource(dataSource).passwordEncoder(passwordEncoder());
-//    }
-
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication()
-                .withUser("hoanghuy").password(passwordEncoder().encode("12345678")).roles("admin2")
-                .and()
-                .withUser("user2").password(passwordEncoder().encode("user2")).roles("USER")
-                .and()
-                .withUser("admin").password(passwordEncoder().encode("admin")).roles("ADMIN");
+        auth.jdbcAuthentication()
+                .dataSource(dataSource)
+                .usersByUsernameQuery("select `user_name` as `username`, `password`, `status` as `enable` from `user` where `user_name`= ?")
+                .authoritiesByUsernameQuery("select `user`.`user_name` as `username`, `user_group`.`name` as `role` from `user_group` join `user` on `user`.`user_groupid` = `user_group`.`id` where `user_name` = ?")
+                .passwordEncoder(passwordEncoder());
     }
 
     @Override
@@ -55,8 +46,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .formLogin().loginPage("/login").defaultSuccessUrl("/").failureUrl("/login?error=true")
                 .permitAll().and()
-
-                .logout().logoutSuccessUrl("/").invalidateHttpSession(true).permitAll().and()
+                .logout().logoutSuccessUrl("/login").invalidateHttpSession(true).permitAll().and()
                 .exceptionHandling().accessDeniedPage("/403")
                 .and().csrf().disable();
     }
@@ -66,4 +56,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         super.configure(web);
 //        web.ignoring().antMatchers("/admin/books");
     }
+
 }

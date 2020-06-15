@@ -83,4 +83,7 @@ public class OrderClientService {
     public void saveOrderDetail(OrderDetail orderDetail){
         orderDetailRepository.save(orderDetail);
     }
+    public int getCountOrderAndCalculateCode(){
+        return orderRepository.getCountOrder();
+    }
 }

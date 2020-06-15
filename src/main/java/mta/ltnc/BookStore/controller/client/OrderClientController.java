@@ -229,6 +229,8 @@ public class OrderClientController {
         if(session.getAttribute("userId") != null){
             order.setUser(accountService.findUser((Long)session.getAttribute("userId")));
         }
+        String code = "MTA-BOOK-" + orderClientService.getCountOrderAndCalculateCode();
+        order.setCode(code);
         orderClientService.save(order);
         for (Long i : cart.keySet()){
             CartItemDto temp = cart.get(i);

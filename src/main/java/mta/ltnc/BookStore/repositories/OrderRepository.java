@@ -26,4 +26,7 @@ public interface OrderRepository extends JpaRepository<Order, Long>, JpaSpecific
 //    @Query("SELECT o FROM Order o WHERE o.id LIKE %:term% or u.user.userName LIKE %:term%")
     @Query("SELECT o FROM Order o WHERE o.id LIKE ?1")
     List<Order> findByOrderIdOrName(Long term);
+
+    @Query(value = "SELECT count(*) FROM `order`", nativeQuery = true)
+    Integer getCountOrder();
 }
