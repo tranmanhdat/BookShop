@@ -2,6 +2,9 @@
 <html xmlns:layout="https://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:th="https://www.thymeleaf.org"
       layout:decorate="~{client/shared/_layout}">
+<head>
+     <title>Chi tiết giỏ hàng</title>
+</head>
 <body>
 <th:block layout:fragment="content">
 <script th:src="@{/client/js/controller/cartController.js}"></script>
@@ -40,7 +43,6 @@
                                         <tbody>
                                         <th:block th:each="i : ${session.cart}">
                                              <tr class="cart-item">
-                                                  <!--                              th:text="${i.number}"-->
                                                   <th scope="row" ></th>
                                                   <td style="width:100px;">
                                                        <!--                                   + ${i.image}-->
@@ -71,7 +73,7 @@
                                                               type="checkbox" th:data-id="${i.value.itemId}" />
                                                   </td>
                                                   <td style="padding:4px">
-                                                       <button class="btn btn-outline-danger show-modal" data-modal="delete_modal_@i.value.itemId"><i class="fa fa-trash-o fa-sm"></i></button>
+                                                       <button class="btn btn-outline-danger show-modal" th:data-modal="${'delete_modal_'+i.value.itemId}"><i class="fa fa-trash-o fa-sm"></i></button>
                                                   </td>
                                              </tr>
                                         </th:block>
@@ -88,7 +90,7 @@
                                                        <h5 class="modal-title">Bạn có muốn xóa <span class="text-danger" th:text="${i.value.name}"></span> khỏi giỏ hàng?</h5>
                                                   </div>
                                                   <div class="modal-footer">
-                                                       <button class="btn btn-outline-danger close-modal btn-delete" th:data-modal="${'delete_modal_' + i.value.itemId}" data-id="${i.value.itemID}"><i class="fa fa-trash-o fa-sm"> Xóa</i></button>
+                                                       <button class="btn btn-outline-danger close-modal btn-delete" th:data-modal="${'delete_modal_' + i.value.itemId}" ><i class="fa fa-trash-o fa-sm"> Xóa</i></button>
                                                        <button class="btn btn-outline-success close-modal" th:data-modal="${'delete_modal_' + i.value.itemId}"><i class="fa fa-times-circle-o fa-sm"> Hủy</i></button>
                                                   </div>
                                              </div>

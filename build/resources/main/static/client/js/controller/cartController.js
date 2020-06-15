@@ -40,6 +40,8 @@ var updatecartitemincart = {
                e.preventDefault();
                var ItemID = parseInt($(this).data("id"));
                var quantity = $(this).val();
+               alert("ID"+ItemID);
+               alert("số lượng"+quantity);
                $.ajax({
                     type: 'POST',
                     url: '/cart/update-quantity',
@@ -95,28 +97,20 @@ var deletecartitemincart = {
           the_modal();
           $('.btn-delete').on('click', function () {
                var btn = $(this);
-               var id = btn.data('id');
+               // var id=parseInt(btn.data('id'));
+               var modal_string = btn.data('modal');
+               var arrModal = modal_string.split("_");
+               var id = parseInt(arrModal[arrModal.length-1]);
+               // alert(id);
                //var listShippingType = $('#listShippingType').val();
                $.ajax({
                     type: 'POST',
                     url: '/cart/delete-cart-item',
                     data: { ItemID: id},
-                    dataType: 'json',
-                    success: function (partialViewData) {
-                         alert("Da xoa mat tieu");
-                         $('#cart-content').html(partialViewData.stringView);
-                         // Cap nhat hien thi so hang trong gio
-                         $.ajax({
-                              type: 'POST',
-                              url: '/cart/cart',
-                              data: null,
-                              dataType: 'json',
-                              success: function (cart) {
-                                   $('#cart-icon').text(cart.totalquantity);
-                              }
-                         });
-                    }
+                    dataType: 'json'
                });
+               alert("delete thành công");
+               window.location.href='index';
                return false;
           });
      }

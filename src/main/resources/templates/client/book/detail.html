@@ -74,8 +74,7 @@
                     <p class="goToDescription"><a href="#details" class="scroll-to">Cuộn xuống để xem mô tả &amp; chi tiết</a></p>
                     <hr />
                     <p class="text-right buttons">
-                         <a href="@{/cart/add-cart(itemId = ${book.Id})}" th:data-itemid="${book.Id}" class="btn bg-transparent btn-add-cart p-0 m-0"><i class="fa fa-shopping-cart"></i> Add to cart</a>
-<!--                         <a href="basket.html" class="btn btn-outline-primary"><i class="fa fa-heart text-danger"></i> Add to wishlist</a>-->
+                         <a th:href="@{/cart/add-cart(itemId = ${book.Id})}" th:data-itemid="${book.Id}" class="btn bg-transparent btn-add-cart p-0 m-0"><i class="fa fa-shopping-cart fa-lg text-info"></i> Add to cart</a>
                     </p>
                </div>
                <div data-slider-id="1" class="owl-thumbs">
