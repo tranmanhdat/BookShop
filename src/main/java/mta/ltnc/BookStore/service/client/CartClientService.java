@@ -4,8 +4,10 @@ import mta.ltnc.BookStore.entity.CartItem;
 import mta.ltnc.BookStore.repositories.CartItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 public class CartClientService {
     @Autowired
     private CartItemRepository cartItemRepository;
@@ -14,7 +16,7 @@ public class CartClientService {
         return cartItemRepository.findByItemIdAndUserId(itemId,userId);
     }
     public  void removeByItemIdAndUserId(Long itemId,Long userId){
-        cartItemRepository.removeByItemIdAndUserId(itemId,userId);
+        cartItemRepository.deleteByBook_IdAndUser_Id(itemId,userId);
     }
     public void save(CartItem cartItem){
         cartItemRepository.save(cartItem);

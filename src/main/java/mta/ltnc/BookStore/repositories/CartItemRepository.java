@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -26,6 +27,5 @@ public interface CartItemRepository extends JpaRepository<CartItem, Integer>, Jp
     @Query("SELECT ci FROM CartItem ci WHERE ci.book.id = :itemId AND ci.user.id = :userId")
     CartItem findByItemIdAndUserId(@Param("itemId")Long itemId,@Param("userId")Long userId);
 
-    @Query("DELETE FROM CartItem ci WHERE ci.book.id = :itemId AND ci.user.id = :userId")
-    CartItem removeByItemIdAndUserId(@Param("itemId")Long itemId,@Param("userId")Long userId);
+    void deleteByBook_IdAndUser_Id(Long itemId, Long userId);
 }
