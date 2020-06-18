@@ -32,158 +32,158 @@
 //};
 
 var updatecartitemincart = {
-     init: function () {
-          updatecartitemincart.responseEvents();
-     },
-     responseEvents: function () {
-          $('.text-box').off('blur').on('blur', function (e) {
-               e.preventDefault();
-               var ItemID = parseInt($(this).data("id"));
-               var quantity = $(this).val();
-               alert("ID"+ItemID);
-               alert("số lượng"+quantity);
-               $.ajax({
-                    type: 'POST',
-                    url: '/cart/update-quantity',
-                    data: { ItemID: ItemID, quantity: quantity},
-                    dataType: 'json',
-                    success: function (res) {
-                         $('#cart-content').html(res.stringView);
-                         $('#tPromotion').text(res.totalPromotion);
-                         $('#tPrice').text(res.totalPrice);
-                         $('#realPrice').text(res.realPrice);
-                         // Cap nhat hien thi so hang trong gio
-                         $.ajax({
-                              type: 'POST',
-                              url: '/cart/cart',
-                              data: null,
-                              dataType: 'json',
-                              success: function (cart) {
-                                   $('#cart-icon').text(cart.totalquantity);
-                              }
-                         });
-                    }
-               });
-               return false;
-          });
-     }
+    init: function () {
+        updatecartitemincart.responseEvents();
+    },
+    responseEvents: function () {
+        $('.text-box').off('blur').on('blur', function (e) {
+            e.preventDefault();
+            var ItemID = parseInt($(this).data("id"));
+            var quantity = $(this).val();
+            alert("ID"+ItemID);
+            alert("số lượng"+quantity);
+            $.ajax({
+                type: 'POST',
+                url: '/cart/update-quantity',
+                data: { ItemID: ItemID, quantity: quantity},
+                dataType: 'json',
+                success: function (res) {
+                    $('#cart-content').html(res.stringView);
+                    $('#tPromotion').text(res.totalPromotion);
+                    $('#tPrice').text(res.totalPrice);
+                    $('#realPrice').text(res.realPrice);
+                    // Cap nhat hien thi so hang trong gio
+                    $.ajax({
+                        type: 'POST',
+                        url: '/cart/cart',
+                        data: null,
+                        dataType: 'json',
+                        success: function (cart) {
+                            $('#cart-icon').text(cart.totalquantity);
+                        }
+                    });
+                }
+            });
+            return false;
+        });
+    }
 };
 var updateSelectedItems = {
-     init: function () {
-          updateSelectedItems.responseEvents();
-     },
-     responseEvents: function () {
-          $('.checkbox').off('click').on('click', function (e) {
-               var ItemID = parseInt($(this).data("id"));
-               $.ajax({
-                    type: 'POST',
-                    url: '/cart/change-selected',
-                    data: { itemId: ItemID },
-                    success: function (res) {
-                         $('#totalPromotion').text(res.totalPromotion);
-                         $('#totalPrice').text(res.totalPrice);
-                         $('#realPrice').text(res.realPrice);
-                    }
-               })
-          })
-     }
+    init: function () {
+        updateSelectedItems.responseEvents();
+    },
+    responseEvents: function () {
+        $('.checkbox').off('click').on('click', function (e) {
+            var ItemID = parseInt($(this).data("id"));
+            $.ajax({
+                type: 'POST',
+                url: '/cart/change-selected',
+                data: { itemId: ItemID },
+                success: function (res) {
+                    $('#totalPromotion').text(res.totalPromotion);
+                    $('#totalPrice').text(res.totalPrice);
+                    $('#realPrice').text(res.realPrice);
+                }
+            })
+        })
+    }
 }
 
 var deletecartitemincart = {
-     init: function () {
-          deletecartitemincart.responseEvents();
-     },
-     responseEvents: function () { 
-          the_modal();
-          $('.btn-delete').on('click', function () {
-               var btn = $(this);
-               // var id=parseInt(btn.data('id'));
-               var modal_string = btn.data('modal');
-               var arrModal = modal_string.split("_");
-               var id = parseInt(arrModal[arrModal.length-1]);
-               // alert(id);
-               //var listShippingType = $('#listShippingType').val();
-               $.ajax({
-                    type: 'POST',
-                    url: '/cart/delete-cart-item',
-                    data: { ItemID: id},
-                    dataType: 'json'
-               });
-               alert("delete thành công");
-               window.location.href='index';
-               return false;
-          });
-     }
+    init: function () {
+        deletecartitemincart.responseEvents();
+    },
+    responseEvents: function () {
+        the_modal();
+        $('.btn-delete').on('click', function () {
+            var btn = $(this);
+            // var id=parseInt(btn.data('id'));
+            var modal_string = btn.data('modal');
+            var arrModal = modal_string.split("_");
+            var id = parseInt(arrModal[arrModal.length-1]);
+            // alert(id);
+            //var listShippingType = $('#listShippingType').val();
+            $.ajax({
+                type: 'POST',
+                url: '/cart/delete-cart-item',
+                data: { ItemID: id},
+                dataType: 'json'
+            });
+            alert("delete thành công");
+            window.location.href='index';
+            return false;
+        });
+    }
 };
 
 var coupon = {
-     intit: function () {
-          coupon.responseEvents();
-     },
-     responseEvents: function () {
-          $('#submit-coupon').off('click').on('click', function (e) {
-               e.preventDefault();
-               var data = $('form#form_coupon').serialize();
-               var total = $('span#total').html();
-               data = data + "&total=" + total;
-               $.ajax({
-                    type: 'POST',
-                    url: 'Cart/Coupon',
-                    data: data,
-                    dataType: 'json',
-                    success: function (coupon) {
-                         if (coupon.status == false) {
-                              alert("Có gì đó sai sai! Mã khuyến mãi không đúng!");
-                              $('#discount').text(coupon.discount + ' VNĐ');
-                         }
-                         else {
-                              $('#discount').text(coupon.discount + ' VNĐ');
-                              $('span#total').text(coupon.newtotal);
-                         }
-                         return false;
+    intit: function () {
+        coupon.responseEvents();
+    },
+    responseEvents: function () {
+        $('#submit-coupon').off('click').on('click', function (e) {
+            e.preventDefault();
+            var data = $('form#form_coupon').serialize();
+            var total = $('span#total').html();
+            data = data + "&total=" + total;
+            $.ajax({
+                type: 'POST',
+                url: 'Cart/Coupon',
+                data: data,
+                dataType: 'json',
+                success: function (coupon) {
+                    if (coupon.status == false) {
+                        alert("Có gì đó sai sai! Mã khuyến mãi không đúng!");
+                        $('#discount').text(coupon.discount + ' VNĐ');
                     }
-               })
-          })
-     }
+                    else {
+                        $('#discount').text(coupon.discount + ' VNĐ');
+                        $('span#total').text(coupon.newtotal);
+                    }
+                    return false;
+                }
+            })
+        })
+    }
 };
 coupon.intit();
 
 var addcartitemincart = {
-     init: function () {
-          addcartitemincart.responseEvents();
-     },
-     responseEvents: function () {
-          $('.btn-add-cart').off('click').on('click', function (e) {
-               e.preventDefault();
-               var btn = $(this);
-               var ItemID = btn.data('itemid');
-               $.ajax({
-                    type: 'POST',
-                    url: '/cart/add-cart-item-in-cart',
-                    data: { ItemID: ItemID},
-                    dataType: 'html',
-                    success: function (partialViewData) {
-                         if (partialViewData != null) {
-                              alert("Đã thêm thành công rồi nè!");
-                              $('#cart-content').html(partialViewData);
-                              $.ajax({
-                                   type: 'POST',
-                                   url: '/cart/cart',
-                                   data: null,
-                                   dataType: 'json',
-                                   success: function (cart) {
-                                        $('#cart-icon').text(cart.totalquantity);
-                                   }
-                              });
-                         }
-                         else {
-                              alert("Số lượng trong kho không đủ");
-                         }
+    init: function () {
+        addcartitemincart.responseEvents();
+    },
+    responseEvents: function () {
+        $('.btn-add-cart').off('click').on('click', function (e) {
+            e.preventDefault();
+            var btn = $(this);
+            var ItemID = btn.data('itemid');
+            $.ajax({
+                type: 'POST',
+                url: '/cart/add-cart-item-in-cart',
+                data: { ItemID: ItemID},
+                dataType: 'html',
+                success: function (partialViewData) {
+                    if (partialViewData != null) {
+                        alert("Đã thêm thành công rồi nè!");
+                        $('#cart-content').html(partialViewData);
+                        $.ajax({
+                            type: 'POST',
+                            url: '/cart/cart',
+                            data: null,
+                            dataType: 'json',
+                            success: function (cart) {
+                                $('#cart-icon').text(cart.totalquantity);
+                            }
+                        });
                     }
-               });
-               return false;
-          });
-     }
+                    else {
+                        alert("Số lượng trong kho không đủ");
+                    }
+                }
+            });
+            return false;
+        });
+    }
 };
 
 
