@@ -38,6 +38,8 @@ public class OrderClientController {
     private ShippingTypeService shippingTypeService;
     @Autowired
     private  BookClientService bookClientService;
+    @Autowired
+    private CartClientService cartService;
     @GetMapping("/check-out")
     public ModelAndView checkOut(HttpSession session) {
         if (session.getAttribute("cart") == null) {
@@ -217,6 +219,7 @@ public class OrderClientController {
         }
         ModelAndView mav = new ModelAndView("client/home/redirect_home_index");
         HashMap<Long, CartItemDto> cart = (HashMap<Long, CartItemDto>) session.getAttribute("cart");
+        Long userId = (Long)session.getAttribute("userId");
         Integer totalPrice = 0;
         Integer realPrice = 0;
         for (Long i : cart.keySet()) {
@@ -242,6 +245,12 @@ public class OrderClientController {
             orderClientService.saveOrderDetail(od);
         }
         mav.addObject("message","Đặt hàng thành công! Mã đơn hàng là: " + order.getCode());
+        session.setAttribute("cart", null);
+        if(userId != null){
+            for (Long i : cart.keySet()) {
+                cartService.removeByItemIdAndUserId(cart.get(i).getItemId(),userId);
+            }
+        }
         return mav;
     }
 }

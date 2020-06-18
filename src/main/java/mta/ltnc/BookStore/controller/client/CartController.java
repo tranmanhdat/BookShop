@@ -33,7 +33,7 @@ public class CartController {
     private CategoryClientService categoryService;
     @GetMapping("/add-cart")
     public ModelAndView addCartItem(HttpSession session, @Param("itemId") Long itemId){
-        System.out.println("dang them");
+//        System.out.println("dang them");
         if(session.getAttribute("cart") == null){ // Chua co thi khoi tao
             session.setAttribute("cart", new HashMap<Long, CartItemDto>());
         }
@@ -41,29 +41,29 @@ public class CartController {
         Integer quantity = 1;
         Long userId = (Long)session.getAttribute("userId");
         HashMap<Long,CartItemDto> cart = (HashMap<Long,CartItemDto>)session.getAttribute("cart"); // Lay gio hang hien tai
-        System.out.println("Gio hang hien tai"+cart);
+//        System.out.println("Gio hang hien tai"+cart);
         CartItemDto temp = cart.get(itemId);
         if(temp == null){ // Neu khong co thi them vao gio
-            System.out.println("chua co item!");
+//            System.out.println("chua co item!");
             CartItemDto cartItemDto = new CartItemDto(bookService.getOneDto(itemId), quantity, session);
             cart.put(itemId, cartItemDto);
-            System.out.println("sau khi them "+ cart);
+//            System.out.println("sau khi them "+ cart);
             if( userId != null) { // Neu da dang nhap thi cap nhat lai database
                 CartItem cartItem = cartItemDto.toCartItem(bookService.findById(itemId), accountService.findUser(userId));
                 cartService.save(cartItem);
-                System.out.println("cartItem"+cartItem);
+//                System.out.println("cartItem"+cartItem);
             }
             session.setAttribute("cart", cart);
             return mav;
         }
-        System.out.println("truoc khi cong them "+temp);
+//        System.out.println("truoc khi cong them "+temp);
         temp.setQuantity(temp.getQuantity() + quantity);
-        System.out.println("sau khi cong them "+temp);
+//        System.out.println("sau khi cong them "+temp);
         if( userId != null){ // Neu da dang nhap thi cap nhat lai database
             cartService.updateQuantity(temp.getQuantity(),itemId,userId);
         }
         cart.replace(itemId, temp);
-        System.out.println("sau khi them neu da co"+cart);
+//        System.out.println("sau khi them neu da co"+cart);
         session.setAttribute("cart", cart);
         return mav;
     }
@@ -93,7 +93,7 @@ public class CartController {
                 cartService.updateQuantity(temp.getQuantity(),itemId,userId);
             }
         }
-        System.out.println("cart after delete "+cart);
+//        System.out.println("cart after delete "+cart);
         session.setAttribute("cart", cart);
     }
     @GetMapping("/update-cart-item")
@@ -114,7 +114,7 @@ public class CartController {
         cart.replace(itemId, temp);
         session.setAttribute("cart", cart);
     }
-//    @GetMapping("/delete-cart-item")
+
     @RequestMapping(value = "delete-cart-item", method = RequestMethod.POST)
     public ModelAndView DeleteCartItem(@RequestParam("ItemID")Long itemId ,HttpSession session){
         if (session.getAttribute("cart") == null){

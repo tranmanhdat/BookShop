@@ -33,13 +33,6 @@ public class HomeController {
     private CategoryClientService categoryService;
     @Autowired
     private BookClientService bookService;
-    @GetMapping("/test")
-    public ModelAndView manageCategory(HttpSession session) {
-        AccountDto acc = new AccountDto();
-        ModelAndView mav = new ModelAndView("client/shared/index2");
-        HelpModelAndView.dataForLayout(mav,categoryService,publisherService,authorService,session);
-        return mav;
-    }
     @GetMapping("/index")
     public ModelAndView index(HttpSession session) {
         AccountDto acc = new AccountDto();
@@ -49,11 +42,4 @@ public class HomeController {
         mav.addObject("title","Trang chủ");
         return mav;
     }
-
-//    @PostMapping("/search")
-//    public ResponseEntity<?> getSearchResult(@Param("word") String word){
-//        List<BookDto> list = bookService.getAllDto().stream().
-//                filter(book -> book.getName().contains(word)).collect(Collectors.toList());
-//        return ResponseEntity.ok(list);
-//    }
 }

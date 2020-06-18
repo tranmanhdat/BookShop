@@ -23,12 +23,6 @@ public class NavController {
             }
         }
     }
-
-//    @GetMapping("/login")
-//    public String login() {
-//        return "common/login";
-//    }
-
     @GetMapping("/password")
     public String password() {
         return "common/password";
