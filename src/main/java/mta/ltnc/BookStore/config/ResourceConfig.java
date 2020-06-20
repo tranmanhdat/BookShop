@@ -10,6 +10,9 @@ public class ResourceConfig implements
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/image/**").addResourceLocations("file:///F:/Downloads/Compressed/bookstore/bookstore/image/");
+        registry
+                .addResourceHandler("/resources/**")
+                .addResourceLocations("/resources/");
 
     }
 }
