@@ -9,10 +9,12 @@ public class ResourceConfig implements
         WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/image/**").addResourceLocations("file:///F:/Downloads/Compressed/bookstore/bookstore/image/");
+//        registry.addResourceHandler("/image/**").addResourceLocations("file:///F:/Downloads/Compressed/bookstore/bookstore/image/");
         registry
-                .addResourceHandler("/resources/**")
-                .addResourceLocations("/resources/");
-
+                .addResourceHandler("/static/**") // « /static/css/myStatic.css
+                .addResourceLocations("classpath:/static/");
+        registry
+                .addResourceHandler("/templates/**") // « /templates/style.css
+                .addResourceLocations("classpath:/templates/static/");
     }
 }
